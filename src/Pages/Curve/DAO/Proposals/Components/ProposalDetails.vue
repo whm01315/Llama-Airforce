@@ -1,7 +1,11 @@
 <template>
   <div class="details">
     <div class="details-container">
-      <Technicals :proposal="proposal"></Technicals>
+      <Technicals
+        :proposal="proposal"
+        :expanded="expanded"
+      ></Technicals>
+
       <Voting :proposal="proposal"></Voting>
     </div>
   </div>
@@ -15,9 +19,10 @@ import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
 // Props
 interface Props {
   proposal: Proposal;
+  expanded: boolean;
 }
 
-const { proposal } = defineProps<Props>();
+const { proposal, expanded = false } = defineProps<Props>();
 
 // Refs
 </script>
@@ -34,9 +39,12 @@ const { proposal } = defineProps<Props>();
   }
 
   margin: 1rem 2rem;
+  padding-bottom: 0.5rem;
   border-top: solid 1px #35353b;
 
   > .details-container {
+    flex-grow: 1;
+
     display: grid;
     grid-template-columns: 1fr minmax(auto, 250px);
     gap: 1.5rem;

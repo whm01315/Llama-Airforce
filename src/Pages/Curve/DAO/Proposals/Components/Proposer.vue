@@ -4,7 +4,12 @@
     :label="t('proposer')"
     :has-value="true"
   >
-    <a href="">0xDEADBEEF</a>
+    <a
+      :href="`https://etherscan.io/address/${proposal.proposer}`"
+      target="_blank"
+    >
+      {{ addressShort(proposal.proposer) }}
+    </a>
   </KPI>
 </template>
 
@@ -12,6 +17,7 @@
 import { useI18n } from "vue-i18n";
 import KPI from "@/Framework/KPI.vue";
 import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import { addressShort } from "@/Wallet/WalletHelper";
 
 const { t } = useI18n();
 

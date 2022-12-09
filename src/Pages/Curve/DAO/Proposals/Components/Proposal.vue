@@ -11,6 +11,7 @@
 
     <Collapsible :is-open="expanded">
       <ProposalDetails
+        v-if="expanded"
         :proposal="proposal"
         :expanded="expanded"
       ></ProposalDetails>
@@ -39,6 +40,8 @@ const expanded = $ref(false);
 <style lang="scss" scoped>
 @import "@/Styles/Variables.scss";
 .proposal {
+  max-width: 1088px;
+
   ::v-deep(.card-body) {
     flex-direction: column;
   }

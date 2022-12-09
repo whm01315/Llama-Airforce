@@ -6,9 +6,9 @@
   >
     <span
       class="status-value"
-      :class="proposal.status"
+      :class="getStatus(proposal)"
     >
-      {{ status }}
+      {{ statusLabel }}
     </span>
   </KPI>
 </template>
@@ -18,6 +18,7 @@ import { useI18n } from "vue-i18n";
 import KPI from "@/Framework/KPI.vue";
 import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
 import { $computed } from "vue/macros";
+import { getStatus } from "@/Pages/Curve/DAO/Proposals/Util/ProposalHelper";
 
 const { t } = useI18n();
 
@@ -28,12 +29,16 @@ interface Props {
 
 const { proposal } = defineProps<Props>();
 
-const status = $computed((): string => {
-  switch (proposal.status) {
+const statusLabel = $computed((): string => {
+  switch (getStatus(proposal)) {
     case "active":
       return t("active");
-    case "closed":
-      return t("closed");
+    case "denied":
+      return t("denied");
+    case "passed":
+      return t("passed");
+    case "executed":
+      return t("executed");
     default:
       return "Unk. Status";
   }
@@ -46,11 +51,19 @@ const status = $computed((): string => {
 .status {
   .status-value {
     &.active {
-      color: rgb(126, 217, 87);
+      color: $yellow;
     }
 
-    &.closed {
-      color: rgb(255, 87, 87);
+    &.denied {
+      color: $red;
+    }
+
+    &.passed {
+      color: $green;
+    }
+
+    &.executed {
+      color: lighten($purple, 8%);
     }
   }
 }
@@ -59,5 +72,7 @@ const status = $computed((): string => {
 <i18n lang="yaml" locale="en">
 status: Status
 active: Active
-closed: Closed
+denied: Denied
+passed: Passed
+executed: Executed
 </i18n>
