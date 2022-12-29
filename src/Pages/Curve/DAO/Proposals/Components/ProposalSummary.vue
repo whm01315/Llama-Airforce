@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import type { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
 import Status from "@/Pages/Curve/DAO/Proposals/Components/Status.vue";
 import Type from "@/Pages/Curve/DAO/Proposals/Components/Type.vue";
 import Proposer from "@/Pages/Curve/DAO/Proposals/Components/Proposer.vue";

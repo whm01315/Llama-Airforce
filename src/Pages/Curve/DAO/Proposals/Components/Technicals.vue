@@ -39,57 +39,11 @@
 
       <!-- Make scroll, not collabsible -->
       <Collapsible :expanded="expandedVoters">
-        <div
+        <Voters
           v-if="proposalDetails"
-          class="voters"
-        >
-          <div class="for">
-            <div class="title">{{ t("for") }}</div>
-
-            <div
-              v-for="vote in votesFor"
-              :key="vote.voter"
-              class="vote"
-            >
-              <div class="address">
-                <a
-                  :href="`https://etherscan.io/address/${vote.voter}`"
-                  target="_blank"
-                >
-                  {{ addressShort(vote.voter) }}
-                </a>
-              </div>
-              <div class="amount">
-                <AsyncValue
-                  :value="vote.stake"
-                  :precision="0"
-                  :show-symbol="false"
-                  type="dollar"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="against">
-            <div class="title">{{ t("against") }}</div>
-
-            <div
-              v-for="vote in votesAgainst"
-              :key="vote.voter"
-              class="vote"
-            >
-              <div class="amount">{{ vote.stake }}</div>
-              <div class="address">
-                <a
-                  :href="`https://etherscan.io/address/${vote.voter}`"
-                  target="_blank"
-                >
-                  {{ addressShort(vote.voter) }}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+          :proposal="proposal"
+          :proposal-details="proposalDetails"
+        ></Voters>
       </Collapsible>
     </div>
   </div>
@@ -99,14 +53,12 @@
 import { watch } from "vue";
 import { $computed, $ref } from "vue/macros";
 import { useI18n } from "vue-i18n";
-import AsyncValue from "@/Framework/AsyncValue.vue";
 import Collapsible from "@/Framework/Collapsible.vue";
-import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import Voters from "@/Pages/Curve/DAO/Proposals/Components/Voters.vue";
+import type { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import type { ProposalDetails } from "@/Pages/Curve/DAO/Proposals/Models/ProposalDetails";
 import ProposalService from "@/Pages/Curve/DAO/Proposals/Services/ProposalService";
 import { getHost } from "@/Services/Host";
-import { ProposalDetails } from "@/Pages/Curve/DAO/Proposals/Models/ProposalDetails";
-import { addressShort } from "@/Wallet/WalletHelper";
-import { chain } from "lodash";
 
 const { t } = useI18n();
 
@@ -134,28 +86,6 @@ const callData = $computed(() => {
     .replace(/(?:\r\n|\r|\n)/g, "<br>")
     .replace("/\u251c/g", "├")
     .replace("/\u2500/g", "─");
-});
-
-const votesFor = $computed(() => {
-  if (!proposalDetails) {
-    return null;
-  }
-
-  return chain(proposalDetails.votes)
-    .filter((vote) => vote.supports)
-    .orderBy((vote) => vote.stake, "desc")
-    .value();
-});
-
-const votesAgainst = $computed(() => {
-  if (!proposalDetails) {
-    return null;
-  }
-
-  return chain(proposalDetails.votes)
-    .filter((vote) => !vote.supports)
-    .orderBy((vote) => vote.stake, "desc")
-    .value();
 });
 
 // Watches
@@ -196,59 +126,6 @@ watch(
       margin-bottom: 0.25rem;
     }
 
-    .voters {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      row-gap: 0.25rem;
-      gap: 2rem;
-
-      > .for,
-      > .against {
-        > .title {
-          display: flex;
-          grid-row: 1 / span 2;
-          font-weight: bold;
-        }
-
-        > .vote {
-          display: grid;
-          gap: 1rem;
-
-          grid-template-columns: 1fr 1fr;
-
-          > .amount,
-          > .address {
-            display: flex;
-          }
-        }
-      }
-
-      > .for {
-        > .title {
-          justify-content: end;
-          color: $green;
-        }
-
-        > .vote {
-          > .amount {
-            justify-content: end;
-          }
-        }
-      }
-
-      > .against {
-        > .title {
-          color: $red;
-        }
-
-        > .vote {
-          > .address {
-            justify-content: end;
-          }
-        }
-      }
-    }
-
     .expander {
       transition: transform 125ms cubic-bezier(0.65, 0.05, 0.36, 1);
       transform: rotate(90deg);
@@ -266,6 +143,4 @@ watch(
 description: Description
 calldata: Calldata
 voters: Voters
-for: For
-against: Against
 </i18n>

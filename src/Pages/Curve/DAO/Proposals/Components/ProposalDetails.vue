@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import Voting from "@/Pages/Curve/DAO/Proposals/Components/Voting.vue";
 import Technicals from "@/Pages/Curve/DAO/Proposals/Components/Technicals.vue";
-import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import type { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
 
 // Props
 interface Props {

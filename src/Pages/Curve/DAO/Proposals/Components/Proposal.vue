@@ -25,7 +25,7 @@ import Card from "@/Framework/Card.vue";
 import Collapsible from "@/Framework/Collapsible.vue";
 import ProposalSummary from "@/Pages/Curve/DAO/Proposals/Components/ProposalSummary.vue";
 import ProposalDetails from "@/Pages/Curve/DAO/Proposals/Components/ProposalDetails.vue";
-import { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
+import type { Proposal } from "@/Pages/Curve/DAO/Proposals/Models/Proposal";
 
 // Props
 interface Props {

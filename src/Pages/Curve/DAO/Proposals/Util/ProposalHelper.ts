@@ -12,17 +12,31 @@ export function getStatus(proposal: Proposal): ProposalStatus {
     return "active";
   }
 
-  const forsWin = proposal.votesFor > proposal.votesAgainst;
-  const reachedQuorum =
-    proposal.votesFor + proposal.votesAgainst >
-    proposal.quorum * proposal.totalSupply;
-  const reachedSupport =
-    proposal.votesFor >
-    proposal.support * proposal.quorum * proposal.totalSupply;
-
-  if (forsWin && reachedQuorum && reachedSupport) {
+  if (
+    hasWon(proposal) &&
+    hasReachedQuorum(proposal) &&
+    hasReachedSupport(proposal)
+  ) {
     return "passed";
   }
 
   return "denied";
+}
+
+export function hasReachedSupport(proposal: Proposal): boolean {
+  return (
+    proposal.votesFor >
+    proposal.support * proposal.quorum * proposal.totalSupply
+  );
+}
+
+export function hasReachedQuorum(proposal: Proposal): boolean {
+  return (
+    proposal.votesFor + proposal.votesAgainst >
+    proposal.quorum * proposal.totalSupply
+  );
+}
+
+export function hasWon(proposal: Proposal): boolean {
+  return proposal.votesFor > proposal.votesAgainst;
 }
