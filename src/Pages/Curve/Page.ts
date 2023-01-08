@@ -7,6 +7,8 @@ import CurveVolume from "@/Pages/Curve/Volume/Volume.vue";
 import CurveRevenue from "@/Pages/Curve/Revenue/Revenue.vue";
 import CurveUtilization from "@/Pages/Curve/Utilization/Utilization.vue";
 
+import CurveDaoMev from "@/Pages/Curve/MEV/MEV.vue";
+
 //import CurveDaoOverview from "@/Pages/Curve/DAO/Overview/Overview.vue";
 import CurveDaoProposals from "@/Pages/Curve/DAO/Proposals/Proposals.vue";
 import CurveDaoVeFunder from "@/Pages/Curve/DAO/VeFunder/VeFunder.vue";
@@ -45,6 +47,12 @@ export const pageCurve: Page = {
     },
     { path: "/curve/utilization/", component: CurveUtilization },
 
+    {
+      path: "/curve/mev",
+      name: "curvemev",
+      component: CurveDaoMev,
+    },
+
     { path: "/curve/vefunder/", redirect: { name: "curvevefunder" } },
     {
       path: "/curve/dao/vefunder/",
@@ -60,7 +68,7 @@ export const pageCurve: Page = {
      */
     {
       path: "/curve/dao/proposals/",
-      name: "curvedaoporposals",
+      name: "curvedaoproposals",
       component: CurveDaoProposals,
     },
   ],
@@ -87,6 +95,11 @@ export const pageCurve: Page = {
           label: "Volume",
         },
       ],
+    },
+    {
+      to: "/curve/mev",
+      icon: "fa fa-user-ninja",
+      label: "MEV",
     },
     {
       icon: "fas fa-funnel-dollar",
